@@ -1,13 +1,12 @@
 import express from 'express';
 
-
-import comments from 'src/routes/api/comments';
-import movies from 'src/routes/api/movies';
-
+import comments from './comments';
+import movies from './movies';
+import MovieService from '../../services/MovieService';
 
 const apiRouter = express.Router();
 
-apiRouter.route('movies', movies);
-apiRouter.route('comments', comments);
+apiRouter.use('/movies', movies(new MovieService('http://www.omdbapi.com','dc4287c0')));
+apiRouter.use('/comments', comments);
 
 export default apiRouter;

@@ -1,4 +1,3 @@
+import mongoose from 'mongoose';
 
-
-
-export MoviesDao
+mongoose.connect('mongodb://localhost:32771/netguru', { useNewUrlParser: true });

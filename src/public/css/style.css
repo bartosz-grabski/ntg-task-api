@@ -1,0 +1,43 @@
+body {
+  max-width: 1280px;
+  margin: auto;
+  font-family: "Open Sans", sans-serif; }
+
+header {
+  padding: 3em 1em 3em 1em; }
+
+.content {
+  padding: 0 1em 0 1em; }
+  .content .add_movie {
+    margin-bottom: 3em; }
+    .content .add_movie input, .content .add_movie button {
+      border-radius: 5px;
+      border: 1px solid #bbbbbb;
+      box-sizing: border-box;
+      height: 2rem;
+      padding: 0 1rem 0 1rem;
+      font-size: 1rem; }
+    .content .add_movie input {
+      width: 20em; }
+    .content .add_movie button:hover {
+      background-color: #bbbbbb;
+      transition: all 0.2s linear;
+      cursor: pointer; }
+  .content .movies {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between; }
+    .content .movies__movie {
+      flex: 1;
+      padding: 1em;
+      margin: 0 1em 1em 0;
+      box-sizing: border-box;
+      border: 1px solid #bbbbbb;
+      border-radius: 5px;
+      -webkit-box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75); }
+      .content .movies__movie__poster img {
+        width: 50%; }
+
+/*# sourceMappingURL=style.css.map */
