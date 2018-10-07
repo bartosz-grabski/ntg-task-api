@@ -75,16 +75,17 @@ class Movies {
         fetch('/api/movies', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({title})
         })
-            .then((response) => {
+            .then(async (response) => {
+                const text = await response.text();
+                const messages = document.getElementsByClassName('messages')[0].innerHTML = text;
                 this.init();
             })
-            .catch(() => {
-
+            .catch((err) => {
+                console.log(err);
             });
     }
 }

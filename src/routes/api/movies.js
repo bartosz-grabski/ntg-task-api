@@ -24,11 +24,12 @@ export default (movieService) => {
     moviesRouter.post("/",async (req,res) => {
         log(`POST movies received for ${req.body.title}`);
         let status = 201;
-        let msg = "Movie added to database";
+        let msg = "";
         let fetchedDetails = {};
         try {
             fetchedDetails = await movieService.lookupMovie(req.body.title);
             await movieService.saveMovie(fetchedDetails);
+            msg = `Movie "${fetchedDetails.title} added to database`;
         } catch (err) {
             log(err);
             msg = err.msg;
