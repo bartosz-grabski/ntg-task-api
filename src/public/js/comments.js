@@ -1,47 +1,40 @@
+class Comment {
+
+}
+
 class Comments {
-    constructor() {
-        this.ref = document.getElementsByClassName('movies')[0];
-        this.addMovieButton = document.getElementsByClassName('add_movie__button')[0];
-        this.addMovieTitle = document.getElementsByClassName('add_movie__title')[0];
+
+    constructor({id}) {
+        this.movieId = id;
+        this.ref = document.getElementsByClassName('comments')[0];
+        this.addMovieButton = document.getElementsByClassName('add_comment__button')[0];
+        this.addMovieTitle = document.getElementsByClassName('add_comment__text')[0];
         this.init();
     }
 
-    init() {
-        this.ref.innerHTML = '';
-        fetch('/api/comments')
-            .then((response) => {
-                response
-                    .json()
-                    .then(movies => {
-                        movies.map(movie => {
-                            this.ref.appendChild(new Movie(movie).getRef())
-                        });
-                    });
-            })
-            .catch(() => {
+    async init() {
+        const response = await fetch(`/api/comments?movieId${this.movieId}`);
+        const comments = await response.json();
+        comments.forEach(comment => {
+            new Comment(comment);
+        })
 
-            });
-
-        this.addMovieButton.addEventListener('click', () => {
-            this.addMovie(this.addMovieTitle.value);
-        });
     }
 
-    addComment(title) {
-        fetch('/api/comments', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({title})
-        })
-            .then((response) => {
-                this.init();
-            })
-            .catch(() => {
-                console.log('asd');
+    async addComment(title) {
+        try {
+            const response = await fetch('/api/comments', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text})
             });
+            this.init();
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 
@@ -49,5 +42,5 @@ class Comments {
 
 
 window.onload = () => {
-    new Movies();
+    new Comments();
 };

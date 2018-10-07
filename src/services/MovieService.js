@@ -1,20 +1,29 @@
-import superagent from 'superagent';
+import superagent from "superagent";
+import Movie from "../db/model/Movie";
+import debug from "debug";
+
+let log = debug('services');
+
+export const MovieServiceErrorCodes = {
+    ERROR_FETCHING: 0,
+    ERROR_NOT_FOUND: 1,
+    ERROR_ALREADY_EXIST: 2,
+    ERROR_SAVING: 3
+};
 
 class MovieService {
+
+
     constructor(apiURL, apiKey) {
         this.apiURL = apiURL;
         this.apiKey = apiKey;
     }
 
-    /**
-     *
-     * @param t
-     * @returns {Request}
-     */
-    lookupMovie(t) {
+
+    async lookupMovie(t) {
         return new Promise((resolve,reject) => {
             return superagent
-                .get(this.apiURL,)
+                .get(this.apiURL)
                 .set('Accept', 'application/json')
                 .query({
                     'apikey': this.apiKey,
@@ -22,8 +31,15 @@ class MovieService {
                 })
                 .end((error,response) => {
                     const movieDetails = response.body;
-                    if (error) reject();
-                    if (movieDetails.Response && movieDetails.Response === "False") reject("Movie not found");
+                    if (error) {
+                        log(error);
+                        reject({code: MovieServiceErrorCodes.ERROR_FETCHING, msg: 'Error fetching results from API'});
+                        return;
+                    }
+
+                    if (movieDetails.Response && movieDetails.Response === "False")
+                        reject({code: MovieServiceErrorCodes.ERROR_NOT_FOUND, msg: `Did not find a movie for query - ${t}`});
+
                     resolve({
                         cast: movieDetails.Actors,
                         title: movieDetails.Title,
@@ -35,6 +51,35 @@ class MovieService {
                     });
                 })
         });
+    }
+
+    async getAllMovies() {
+        return new Promise((resolve, reject) => {
+            Movie.find({}, (err, movies) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(movies);
+            });
+        });
+    }
+
+    async saveMovie(movieDetails) {
+        return new Promise((resolve, reject) => {
+            new Movie(movieDetails).save((error) => {
+                if (error) {
+                    log(error);
+                    if (error.code === 11000) {
+                        reject({code: MovieServiceErrorCodes.ERROR_ALREADY_EXIST, msg: `Movie "${movieDetails.title}" already exists in the database`});
+                    } else {
+                        reject({code: MovieServiceErrorCodes.ERROR_SAVING, msg: 'Error saving movie to the database'});
+                    }
+                    return;
+                }
+                resolve();
+            })
+        })
     }
 }
 

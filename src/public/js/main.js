@@ -15,22 +15,24 @@ class Movie {
 
     html() {
         return `<div class="movies__movie">
-                    <div class="movies__movie__poster">
-                        <img src="${this.poster}"/>
+                    <div class="movies__movie__content">
+                        <div class="movies__movie__content__poster">
+                            <img src="${this.poster}"/>
+                        </div>
+                        <div class="movies__movie__content__title">
+                            <h1>${this.title}</h1>
+                        </div>
+                        <div class="movies__movie__content__year">
+                           <h2>${this.year}</h2>
+                        </div>
+                        <div class="movies__movie__content__description">
+                           <p>${this.description}</p>
+                        </div>
+                        <div class="movies__movie__content__cast">
+                           <p>${this.cast}</p>
+                        </div>
+                        <a href="/comment.html?movieId=${this.id}" class="movies__movie__content__show_comments">Show comments</a>
                     </div>
-                    <div class="movies__movie__title">
-                        <h1>${this.title}</h1>
-                    </div>
-                    <div class="movies__movie__year">
-                       <h2>${this.year}</h2>
-                    </div>
-                    <div class="movies__movie__description">
-                       <p>${this.description}</p>
-                    </div>
-                    <div class="movies__movie__cast">
-                       <p>${this.cast}</p>
-                    </div>
-                    <a href="/comment.html?movieId=${this.id}" class="movies__movie__show_comments">Show comments</a>
                 </div>`;
     }
 
@@ -55,7 +57,7 @@ class Movies {
                 response
                     .json()
                     .then(movies => {
-                        movies.map(movie => {
+                        movies.forEach(movie => {
                             this.ref.appendChild(new Movie(movie).getRef())
                         });
                     });

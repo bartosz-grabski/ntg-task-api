@@ -1,44 +1,46 @@
 import { Router } from "express";
-import Movie from '../../db/model/Movie';
+import { MovieServiceErrorCodes } from "../../services/MovieService";
 
 
-export default (MovieService) => {
+export default (movieService) => {
     const moviesRouter = Router();
 
-    moviesRouter.get("/",(req,res) => {
-        Movie.find({}, (err,movies) => {
-            if (err) {
-                res.sendStatus(500);
-            }
-            res.status(200).send(movies);
-
-        })
+    moviesRouter.get("/",async (req,res) => {
+        let response = [];
+        let status = 200;
+        try {
+            const movies = await movieService.getAllMovies();
+            response = movies;
+        } catch (e) {
+            response = e;
+            status = 500;
+        }
+        res.status(status).send(response);
     });
 
-    moviesRouter.post("/",(req,res) => {
-        MovieService
-            .lookupMovie(req.body.title)
-            .then(movieDetails => {
-                const movie = new Movie(movieDetails);
-                movie.save((err) => {
-                    let status = 201;
-                    let msg = "Movie added to database";
-                    if (err) {
-                        if (err.code === 11000) { //movie exists
-                            msg = `Found "${movieDetails.title}", which already exists in the database!`;
-                            status = 400;
-                        } else {
-                            msg = 'Error adding movie to the database';
-                            status = 500;
-                        }
-                    }
+    moviesRouter.post("/",async (req,res) => {
+        let status = 201;
+        let msg = "Movie added to database";
+        let fetchedDetails = {};
+        try {
+            fetchedDetails = await movieService.lookupMovie(req.query.title);
+            await movieService.saveMovie(fetchedDetails);
+        } catch (err) {
+            console.log(err);
+            msg = err.msg;
+            switch (err.code) {
+                case MovieServiceErrorCodes.ERROR_ALREADY_EXIST:
+                case MovieServiceErrorCodes.ERROR_NOT_FOUND:
+                    status = 400;
+                    break;
+                case MovieServiceErrorCodes.ERROR_FETCHING:
+                case MovieServiceErrorCodes.ERROR_SAVING:
+                    status = 500;
+                    break;
+            }
+        }
 
-                    res.status(status).send(msg);
-                })
-            })
-            .catch((msg) => {
-                res.status(400).send(msg);
-            });
+        res.status(status).send(msg);
     });
 
     return moviesRouter;
