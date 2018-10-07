@@ -7,19 +7,19 @@ import mainRouter from './routes/index';
 import database from './db';
 
 export default (config) => {
-    const app = express();
+  const app = express();
 
-    const { db } = config;
+  const { db } = config;
 
-    app.use(logger('dev'));
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, 'public')));
+  app.use(logger('dev'));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, 'public')));
 
-    database(db);
+  database(db);
 
-    app.use(mainRouter);
+  app.use(mainRouter);
 
-    return app;
-}
+  return app;
+};

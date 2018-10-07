@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-import application from '../app';
 import debug from 'debug';
 import http from 'http';
+import application from '../app';
 
 const log = debug('server');
 
@@ -14,12 +14,12 @@ const log = debug('server');
 
 const port = normalizePort(process.env.PORT || '3000');
 const app = application({
-    db: {
-      uri: process.env.MONGODB_URI || process.env.DB_URI,
-      host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT || '32771',
-      db: process.env.DB || 'netguru'
-    }
+  db: {
+    uri: process.env.MONGODB_URI || process.env.DB_URI,
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || '32771',
+    db: process.env.DB || 'netguru',
+  },
 });
 app.set('port', port);
 
@@ -67,17 +67,17 @@ function onError(error) {
   }
 
   const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    ? `Pipe ${port}`
+    : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -92,7 +92,7 @@ function onError(error) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-    log('Listening on ' + bind);
+    ? `pipe ${addr}`
+    : `port ${addr.port}`;
+  log(`Listening on ${bind}`);
 }
