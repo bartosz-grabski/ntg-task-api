@@ -23,7 +23,7 @@ export default (movieService) => {
         let msg = "Movie added to database";
         let fetchedDetails = {};
         try {
-            fetchedDetails = await movieService.lookupMovie(req.query.title);
+            fetchedDetails = await movieService.lookupMovie(req.body.title);
             await movieService.saveMovie(fetchedDetails);
         } catch (err) {
             console.log(err);

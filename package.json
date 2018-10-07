@@ -6,7 +6,7 @@
     "dev": "nodemon --watch src --exec babel-node src/bin/start.js",
     "build": "babel src -d dist --presets minify",
     "prod": "node ./dist/bin/start.js",
-    "test": "mocha --compilers js:@babel/register"
+    "test": "mocha --require @babel/register './test/**/*.spec.js'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -23,7 +23,10 @@
       [
         "@babel/preset-env",
         {
-          "useBuiltIns": "entry"
+          "useBuiltIns": "entry",
+          "targets": {
+            "node": "current"
+          }
         }
       ]
     ]
@@ -34,8 +37,11 @@
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/register": "^7.0.0",
+    "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
-    "sinon": "^6.3.5"
+    "sinon": "^6.3.5",
+    "sinon-chai": "^3.2.0",
+    "supertest": "^3.3.0"
   }
 }

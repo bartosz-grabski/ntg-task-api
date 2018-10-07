@@ -77,7 +77,7 @@ class MovieService {
                     }
                     return;
                 }
-                resolve();
+                resolve(true);
             })
         })
     }
