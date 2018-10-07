@@ -1,7 +1,7 @@
 # API 
 
 
-### GET /api/movie/<movieID>/
+### GET /api/movie/\<movieID>/
 
 Gets movie details for a particular movie saved to the database
 
