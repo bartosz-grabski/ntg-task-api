@@ -17,7 +17,7 @@ class MovieService {
     this.apiKey = apiKey;
   }
 
-  async getMovieInfo(id) {
+  static async getMovieInfo(id) {
     log(id);
     return new Promise((resolve, reject) => {
       Movie.findOne({ id }, (err, movie) => {
@@ -60,7 +60,7 @@ class MovieService {
       }));
   }
 
-  async getAllMovies() {
+  static async getAllMovies() {
     return new Promise((resolve, reject) => {
       Movie.find({}, (err, movies) => {
         if (err) {
@@ -72,7 +72,7 @@ class MovieService {
     });
   }
 
-  async saveMovie(movieDetails) {
+  static async saveMovie(movieDetails) {
     return new Promise((resolve, reject) => {
       new Movie(movieDetails).save((error) => {
         if (error) {
