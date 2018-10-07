@@ -47,46 +47,37 @@ class Movies {
         this.ref = document.getElementsByClassName('movies')[0];
         this.addMovieButton = document.getElementsByClassName('add_movie__button')[0];
         this.addMovieTitle = document.getElementsByClassName('add_movie__title')[0];
+        this.listener = () => {
+            this.addMovie(this.addMovieTitle.value);
+        };
         this.init();
     }
 
-    init() {
+    async init() {
         this.ref.innerHTML = '';
-        fetch('/api/movies')
-            .then((response) => {
-                response
-                    .json()
-                    .then(movies => {
-                        movies.forEach(movie => {
-                            this.ref.appendChild(new Movie(movie).getRef())
-                        });
-                    });
-            })
-            .catch(() => {
+        this.addMovieButton.removeEventListener('click', this.listener);
+        const response = await fetch('/api/movies');
+        const movies = await response.json();
 
-            });
-
-        this.addMovieButton.addEventListener('click', () => {
-            this.addMovie(this.addMovieTitle.value);
+        movies.forEach(movie => {
+            this.ref.appendChild(new Movie(movie).getRef())
         });
+
+
+        this.addMovieButton.addEventListener('click', this.listener);
     }
 
-    addMovie(title) {
-        fetch('/api/movies', {
+    async addMovie(title) {
+        const response = await fetch('/api/movies', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({title})
         })
-            .then(async (response) => {
-                const text = await response.text();
-                const messages = document.getElementsByClassName('messages')[0].innerHTML = text;
-                this.init();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const text = await response.text();
+        document.getElementsByClassName('messages')[0].innerHTML = text;
+        this.init();
     }
 }
 

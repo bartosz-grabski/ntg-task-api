@@ -29,7 +29,7 @@ export default (movieService) => {
         try {
             fetchedDetails = await movieService.lookupMovie(req.body.title);
             await movieService.saveMovie(fetchedDetails);
-            msg = `Movie "${fetchedDetails.title} added to database`;
+            msg = `Movie "${fetchedDetails.title}" added to database`;
         } catch (err) {
             log(err);
             msg = err.msg;

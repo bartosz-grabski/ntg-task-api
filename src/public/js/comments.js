@@ -29,20 +29,7 @@ class Comments {
         this.addCommentButton = document.getElementsByClassName('add_comment__button')[0];
         this.addCommentText = document.getElementsByClassName('add_comment__text')[0];
         this.addCommentAuthor = document.getElementsByClassName('add_comment__author')[0];
-
-        this.init();
-    }
-
-    async init() {
-
-        this.addCommentAuthor.value = '';
-        this.addCommentText.value = '';
-
-
-        await this.loadMovieInfo();
-        await this.loadComments();
-
-        this.addCommentButton.addEventListener('click',() => {
+        this.listener = () => {
             const author = this.addCommentAuthor.value;
             const text = this.addCommentText.value;
             const comment = {
@@ -51,7 +38,22 @@ class Comments {
                 text
             };
             this.addComment(comment);
-        });
+        };
+
+        this.init();
+    }
+
+    async init() {
+
+        this.addCommentButton.removeEventListener('click', this.listener);
+        this.addCommentAuthor.value = '';
+        this.addCommentText.value = '';
+
+
+        await this.loadMovieInfo();
+        await this.loadComments();
+
+        this.addCommentButton.addEventListener('click',);
     }
 
     async loadMovieInfo() {
@@ -63,6 +65,7 @@ class Comments {
 
     async loadComments() {
         this.ref.innerHTML = '';
+
         const response = await fetch(`/api/comments?movieId=${this.movieId}`);
         const comments = await response.json();
         comments.reverse().forEach(comment => this.ref.appendChild(new Comment(comment).getRef()));
