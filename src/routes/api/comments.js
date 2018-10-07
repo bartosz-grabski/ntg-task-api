@@ -1,26 +1,47 @@
 import { Router } from "express";
-import Comment from '../../db/model/Comment';
+import debug from 'debug';
 
+const log = debug('routes-comments');
 
-const commentsRouter = Router();
+export default (commentsService) => {
 
-commentsRouter.get("/",(req,res) => {
+    const commentsRouter = Router();
 
-    const movieId = req.query.movieId;
-
-    Comment.find({
-        movieId
-    },(err,comments) => {
-        if (err) {
-            console.log('error')
+    commentsRouter.get("/",async (req,res) => {
+        const movieId = req.query.movieId;
+        log(`GET comment received for ${movieId}`);
+        let response = [];
+        let status = 200;
+        try {
+            response = await commentsService.getAllCommentsForMovie(movieId);
+        } catch (e) {
+            log(e);
+            status = 500;
         }
-        res.status(200).send(comments);
-    })
 
-});
+        res.status(status).send(response);
 
-commentsRouter.post("/",(req,res) => {
+    });
 
-});
+    commentsRouter.post("/",async (req,res) => {
 
-export default commentsRouter;
+        const comment = req.body.comment;
+        log(`POST comment received : ${comment}`);
+        let status = 201;
+        let response = 'Comment added';
+        try {
+            await commentsService.saveComment(comment);
+        } catch (e) {
+            log(e);
+            status = 500;
+            response = 'Error adding comment';
+        }
+
+        res.status(status).send(response);
+
+    });
+
+    return commentsRouter;
+
+}
+

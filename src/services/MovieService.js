@@ -2,7 +2,7 @@ import superagent from "superagent";
 import Movie from "../db/model/Movie";
 import debug from "debug";
 
-let log = debug('services');
+let log = debug('services-movie');
 
 export const MovieServiceErrorCodes = {
     ERROR_FETCHING: 0,
@@ -13,12 +13,23 @@ export const MovieServiceErrorCodes = {
 
 class MovieService {
 
-
     constructor(apiURL, apiKey) {
         this.apiURL = apiURL;
         this.apiKey = apiKey;
     }
 
+    async getMovieInfo(id) {
+        log(id);
+        return new Promise((resolve, reject) => {
+            Movie.findOne({ id }, (err, movie) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(movie);
+            });
+        });
+    }
 
     async lookupMovie(t) {
         return new Promise((resolve,reject) => {

@@ -1,6 +1,10 @@
 $element-width: 20em;
 $border-radius: 5px;
-$border-color: #bbbbbb;
+$border-color: #BBBBBB;
+$background-light: #DEDEDE;
+
+@import 'movies';
+@import 'comments';
 
 body {
   max-width: 1280px;
@@ -17,81 +21,28 @@ header {
 
   padding: 0 1em 0 0;
 
-  .add_movie {
-
+  input, button {
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    box-sizing: border-box;
+    height: 2rem;
     padding: 0 1rem 0 1rem;
+    font-size: 1rem;
+  }
 
-    input, button {
-      border-radius: $border-radius;
-      border: 1px solid $border-color;
-      box-sizing: border-box;
-      height: 2rem;
-      padding: 0 1rem 0 1rem;
-      font-size: 1rem;
-    }
+  input {
+    width: $element-width;
+  }
 
-    input {
-      width: $element-width;
-    }
+  button:hover {
+    background-color: $border-color;
+    transition: all 0.2s linear;
+    cursor: pointer;
+  }
 
-    button:hover {
-      background-color: $border-color;
-      transition: all 0.2s linear;
-      cursor: pointer;
-    }
-
+  .add_movie, .add_comment {
+    padding: 0 1rem 0 1rem;
     margin-bottom: 3em;
   }
 
-  .movies {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-
-    &__movie {
-
-      flex: 1 1 25%;
-      padding-left: 1em;
-      box-sizing: border-box;
-      min-width: 300px;
-      margin-bottom: 1em;
-
-
-      &__content {
-
-        position: relative;
-        padding: 1em;
-        height: 100%;
-        box-sizing: border-box;
-        border: 1px solid $border-color;
-        border-radius: $border-radius;
-        -webkit-box-shadow: 4px 6px 18px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: 4px 6px 18px 0px rgba(0,0,0,0.75);
-        box-shadow: 4px 6px 18px 0px rgba(0,0,0,0.75);
-
-
-        &__title {
-          text-align: center;
-        }
-
-        &__cast {
-          padding-bottom: 1em;
-        }
-
-        &__poster {
-          img {
-            width: 100px;
-            margin: auto;
-            display: block;
-          }
-        }
-
-        &__show_comments {
-          position: absolute;
-          bottom: 1em;
-        }
-      }
-
-    }
-  }
 }

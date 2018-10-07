@@ -1,17 +1,20 @@
 import { Router } from "express";
 import { MovieServiceErrorCodes } from "../../services/MovieService";
+import debug from "debug";
 
+const log = debug('routes-movies');
 
 export default (movieService) => {
     const moviesRouter = Router();
 
     moviesRouter.get("/",async (req,res) => {
+        log(`GET movies received`);
         let response = [];
         let status = 200;
         try {
-            const movies = await movieService.getAllMovies();
-            response = movies;
+            response = await movieService.getAllMovies();
         } catch (e) {
+            log(e);
             response = e;
             status = 500;
         }
@@ -19,6 +22,7 @@ export default (movieService) => {
     });
 
     moviesRouter.post("/",async (req,res) => {
+        log(`POST movies received for ${req.body.title}`);
         let status = 201;
         let msg = "Movie added to database";
         let fetchedDetails = {};
@@ -26,12 +30,14 @@ export default (movieService) => {
             fetchedDetails = await movieService.lookupMovie(req.body.title);
             await movieService.saveMovie(fetchedDetails);
         } catch (err) {
-            console.log(err);
+            log(err);
             msg = err.msg;
             switch (err.code) {
                 case MovieServiceErrorCodes.ERROR_ALREADY_EXIST:
-                case MovieServiceErrorCodes.ERROR_NOT_FOUND:
                     status = 400;
+                    break;
+                case MovieServiceErrorCodes.ERROR_NOT_FOUND:
+                    status = 404;
                     break;
                 case MovieServiceErrorCodes.ERROR_FETCHING:
                 case MovieServiceErrorCodes.ERROR_SAVING:

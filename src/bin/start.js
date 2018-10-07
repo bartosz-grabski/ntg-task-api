@@ -2,17 +2,24 @@
  * Module dependencies.
  */
 
-import app from '../app';
-import debugModule from 'debug';
+import application from '../app';
+import debug from 'debug';
 import http from 'http';
 
-const debug = debugModule('netguru-task:server');
+const log = debug('server');
 
 /**
  * Get port from environment and store in Express.
  */
 
 const port = normalizePort(process.env.PORT || '3000');
+const app = application({
+    db: {
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || '32771',
+      db: process.env.DB || 'netguru'
+    }
+});
 app.set('port', port);
 
 /**
@@ -86,5 +93,5 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    log('Listening on ' + bind);
 }

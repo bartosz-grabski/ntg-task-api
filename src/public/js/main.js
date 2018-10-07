@@ -84,7 +84,7 @@ class Movies {
                 this.init();
             })
             .catch(() => {
-                console.log('asd');
+
             });
     }
 }

@@ -1,3 +1,9 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://localhost:32771/netguru', { useNewUrlParser: true });
+export default ({host,port,db,user,pass}) => {
+    if (user) {
+        mongoose.connect(`mongodb://${user}:${pass}@${host}:${port}/${db}`, { useNewUrlParser: true });
+    } else {
+        mongoose.connect(`mongodb://${host}:${port}/${db}`, { useNewUrlParser: true });
+    }
+}

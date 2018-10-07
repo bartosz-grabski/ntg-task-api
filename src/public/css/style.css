@@ -1,3 +1,49 @@
+.movies {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center; }
+  .movies__movie {
+    flex: 1 1 25%;
+    padding-left: 1em;
+    box-sizing: border-box;
+    min-width: 300px;
+    margin-bottom: 1em; }
+    .movies__movie__content {
+      position: relative;
+      padding: 1em;
+      height: 100%;
+      box-sizing: border-box;
+      border: 1px solid #BBBBBB;
+      border-radius: 5px;
+      -webkit-box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75); }
+      .movies__movie__content__title {
+        text-align: center; }
+      .movies__movie__content__cast {
+        padding-bottom: 1em; }
+      .movies__movie__content__poster img {
+        width: 100px;
+        margin: auto;
+        display: block; }
+      .movies__movie__content__show_comments {
+        position: absolute;
+        bottom: 1em; }
+
+.comments {
+  display: flex;
+  flex-flow: column nowrap; }
+  .comments__comment {
+    flex: 1;
+    min-height: 4rem;
+    padding: 1rem;
+    position: relative; }
+    .comments__comment__content__author {
+      position: absolute;
+      bottom: 1em; }
+    .comments__comment:nth-child(odd) {
+      background-color: #DEDEDE; }
+
 body {
   max-width: 1280px;
   margin: auto;
@@ -8,52 +54,21 @@ header {
 
 .content {
   padding: 0 1em 0 0; }
-  .content .add_movie {
+  .content input, .content button {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    box-sizing: border-box;
+    height: 2rem;
+    padding: 0 1rem 0 1rem;
+    font-size: 1rem; }
+  .content input {
+    width: 20em; }
+  .content button:hover {
+    background-color: #BBBBBB;
+    transition: all 0.2s linear;
+    cursor: pointer; }
+  .content .add_movie, .content .add_comment {
     padding: 0 1rem 0 1rem;
     margin-bottom: 3em; }
-    .content .add_movie input, .content .add_movie button {
-      border-radius: 5px;
-      border: 1px solid #bbbbbb;
-      box-sizing: border-box;
-      height: 2rem;
-      padding: 0 1rem 0 1rem;
-      font-size: 1rem; }
-    .content .add_movie input {
-      width: 20em; }
-    .content .add_movie button:hover {
-      background-color: #bbbbbb;
-      transition: all 0.2s linear;
-      cursor: pointer; }
-  .content .movies {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center; }
-    .content .movies__movie {
-      flex: 1 1 25%;
-      padding-left: 1em;
-      box-sizing: border-box;
-      min-width: 300px;
-      margin-bottom: 1em; }
-      .content .movies__movie__content {
-        position: relative;
-        padding: 1em;
-        height: 100%;
-        box-sizing: border-box;
-        border: 1px solid #bbbbbb;
-        border-radius: 5px;
-        -webkit-box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75);
-        box-shadow: 4px 6px 18px 0px rgba(0, 0, 0, 0.75); }
-        .content .movies__movie__content__title {
-          text-align: center; }
-        .content .movies__movie__content__cast {
-          padding-bottom: 1em; }
-        .content .movies__movie__content__poster img {
-          width: 100px;
-          margin: auto;
-          display: block; }
-        .content .movies__movie__content__show_comments {
-          position: absolute;
-          bottom: 1em; }
 
 /*# sourceMappingURL=style.css.map */

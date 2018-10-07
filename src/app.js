@@ -4,17 +4,22 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
 import mainRouter from './routes/index';
-import db from './db';
+import database from './db';
 
-const app = express();
+export default (config) => {
+    const app = express();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+    const { db } = config;
 
-app.use(mainRouter);
+    app.use(logger('dev'));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(cookieParser());
+    app.use(express.static(path.join(__dirname, 'public')));
 
+    database(db);
 
-module.exports = app;
+    app.use(mainRouter);
+
+    return app;
+}

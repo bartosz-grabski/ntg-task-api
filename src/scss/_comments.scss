@@ -1,0 +1,26 @@
+.comments {
+  display: flex;
+  flex-flow: column nowrap;
+
+  &__comment {
+
+    flex: 1;
+    min-height: 4rem;
+    padding: 1rem;
+    position: relative;
+
+    &__content {
+
+      &__author {
+        position: absolute;
+        bottom: 1em;
+      }
+    }
+
+
+    &:nth-child(odd) {
+      background-color: $background-light;
+    }
+  }
+
+}

@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --watch src --exec babel-node src/bin/start.js",
-    "build": "babel src -d dist --presets minify",
+    "build": "babel src -d dist && cp -r src/public/css dist/public && cp -r src/public/*.html dist/public",
     "prod": "node ./dist/bin/start.js",
-    "test": "mocha --require @babel/register './test/**/*.spec.js'"
+    "test": "mocha --require @babel/register './test/**/*.spec.js'",
+    "test-integration": "DEBUG=e2e mocha --require @babel/register './test/e2e/e2e.spec.js'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
