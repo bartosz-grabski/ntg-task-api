@@ -44,6 +44,8 @@ Body:
 
 # Prerequisites
 
+I used Node.js (v8.5.0) and npm (6.4.1)
+
 ```text
 npm install
 npm run build
