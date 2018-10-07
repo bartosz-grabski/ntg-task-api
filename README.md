@@ -1,5 +1,6 @@
-# API 
+For now there's no possibility to remove added movies and comments.
 
+# API 
 
 ### GET /api/movie/\<movieID>/
 
