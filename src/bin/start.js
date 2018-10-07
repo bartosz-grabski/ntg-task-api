@@ -15,6 +15,7 @@ const log = debug('server');
 const port = normalizePort(process.env.PORT || '3000');
 const app = application({
     db: {
+      uri: process.env.MONGODB_URI || process.env.DB_URI,
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || '32771',
       db: process.env.DB || 'netguru'
