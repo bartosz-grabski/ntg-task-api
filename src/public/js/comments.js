@@ -53,7 +53,7 @@ class Comments {
         await this.loadMovieInfo();
         await this.loadComments();
 
-        this.addCommentButton.addEventListener('click',);
+        this.addCommentButton.addEventListener('click', this.listener);
     }
 
     async loadMovieInfo() {
